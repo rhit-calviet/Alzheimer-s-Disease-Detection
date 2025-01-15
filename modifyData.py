@@ -1,9 +1,51 @@
+"""
+Dataset Restructuring Script for Alzheimer’s Disease MRI Classification
+
+This script prepares an Alzheimer’s MRI dataset by combining original and augmented images,
+splitting them into training, validation, and testing sets, and organizing them into structured directories.
+
+Steps:
+1. **Define Dataset Paths**:
+   - `OriginalDataset`: Contains the original images for each category.
+   - `AugmentedAlzheimerDataset`: Contains augmented images for each category.
+   - `TRAIN`, `VAL`, `TEST`: Destination folders for the split dataset.
+
+2. **Categories**:
+   - Four categories are supported: `MildDemented`, `ModerateDemented`, `NonDemented`, `VeryMildDemented`.
+
+3. **Directory Creation**:
+   - Creates subdirectories for each category under `TRAIN`, `VAL`, and `TEST`.
+
+4. **Data Combination and Splitting**:
+   - Combines original and augmented images for each category.
+   - Splits the dataset into:
+     - **TRAIN**: 75%
+     - **VAL**: 5%
+     - **TEST**: 20%
+   - Random splits are controlled using a fixed random seed for reproducibility.
+
+5. **Image Organization**:
+   - Copies images into their respective directories based on the split.
+
+6. **Cleanup**:
+   - Removes the `OriginalDataset` and `AugmentedAlzheimerDataset` directories after restructuring.
+
+Usage:
+- Ensure the `OriginalDataset` and `AugmentedAlzheimerDataset` directories exist under the specified `DATA` base path.
+- Run the script to organize and split the dataset for deep learning experiments. Thedataset is sourced from Kaggle:
+https://www.kaggle.com/datasets/uraninjo/augmented-alzheimer-mri-dataset/data.
+
+Output:
+- A structured dataset under `TRAIN`, `VAL`, and `TEST` directories, ready for model training and evaluation.
+"""
+
 import os
 import shutil
 from sklearn.model_selection import train_test_split
 
 # Base Path
-data_path = 'DATA'
+data_path = r'..\DATA'
+print('Found Path')
 
 # Dataset paths
 original_dataset_path = os.path.join(data_path, 'OriginalDataset')
@@ -25,6 +67,7 @@ for split in [train_path, val_path, test_path]:
 # Function to combine and split data
 def combine_and_split_data():
     for category in categories:
+        print('loop')
         # Collect all images from original and augmented datasets
         original_images = [
             os.path.join(original_dataset_path, category, img)
